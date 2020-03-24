@@ -1,0 +1,50 @@
+<div class="card mx-auto p-auto mb-3  " style="width: 17rem;">
+    <img class=" card-img-top img-fluid" [routerLink]="['/biscuit',biscuit.id]" [src]="biscuit.image"
+        alt="image de biscuit">
+    <div class="card-body">
+        <h5 class="card-title text-center"><span class="biscuit-nom">{{biscuit.nom | titlecase}}</span></h5>
+        <p class="card-text">Biscuits au <span class="biscuit-categorie">{{biscuit.categorie}}</span>.</p>
+
+    </div>
+    <div class="mb-3">
+        <a (click)="checkAuth('update',template,auth)" class=" btn
+            btn-primary" style="color: white;">Modifier
+        </a><a (click)="checkAuth('delete',template,auth)"
+            class="btn btn-outline-danger ml-2">Supprimer</a>
+    </div>
+</div>
+
+
+
+<ng-template #template>
+
+    <div class="modal-content text-center">
+
+        <div class=" modal-body ">
+            Voulez vous vraiment supprimer le biscuit "{{biscuit.nom}}"? <div class="text-center">
+                <button (click)="this.modalRef.hide();" class="btn btn-primary mt-3 ">Annuler</button>
+                <button [disabled]="!isAuth" class="btn btn-danger mt-3 ml-3"
+                    (click)="onDeleteBiscuit()">Supprimer</button>
+            </div>
+        </div>
+
+    </div>
+
+</ng-template>
+
+<ng-template #auth>
+
+    <div class="modal-content text-center">
+
+        <div class=" modal-body ">
+            Pour effectuer cette action, vous devez vous connecter, souhaitez vous vous connecter ? <div
+                class="text-center">
+                <button class="btn btn-success mt-3 mr-3" (click)="onLogin()">Se
+                    connecter</button>
+                <button (click)="this.modalRef.hide();" class="btn btn-primary mt-3 ">Annuler</button>
+            </div>
+        </div>
+
+    </div>
+
+</ng-template>

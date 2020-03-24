@@ -1,0 +1,99 @@
+<ng-container *ngIf="isLoading">
+    <div style="margin-left: 50%;margin-top: 35% ;width: 3rem; height: 3rem;">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Chargement...</span>
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="!isLoading">
+    <div class="container-md container-fluid">
+        <div *ngIf="biscuits != []" class="row d-flex">
+            <div class=" col-12 my-1 text-center ">
+                <h3 class=" mb-4" *ngIf="url == '/biscuits'" id="titre">Tous les biscuits</h3>
+                <h3 class=" mb-4" *ngIf="regExType.test(url)">Biscuits au {{type | titlecase}}</h3>
+                <h3 class=" mb-4" *ngIf="regExName.test(url) || regExTypeSearch.test(url)">Resultats de la recherche
+                    "{{search}}"
+                    ({{biscuits.length}}
+                    résultats trouvés <span *ngIf="regExTypeSearch.test(url)">dans {{type}}</span>)</h3><button
+                    *ngIf="valideCategorie"
+                    [routerLink]="(regExType.test(url)) ? ['/biscuit-form',type] : ['/biscuit-form']"
+                    class="btn btn-success mb-2" id="addBiscuitLink">Ajouter
+                    un
+                    biscuit</button><button *ngIf="!mobile" (click)="changeDisplay()"
+                    class="mb-2 btn btn-outline-primary ml-3">{{(beautyDisplay) ? 'Passer en Tableau' : 'Passer en Cartes'}}</button>
+            </div>
+
+            <div class="col-12 mt-4">
+                <div class="row text-center" *ngIf="beautyDisplay">
+                    <app-biscuit [biscuit]="biscuit" (deleteEmitter)="deleteBiscuit($event)"
+                        *ngFor="let biscuit of biscuits " class="col-sm-6 col-lg-4 col-xl-3 text-center">
+                    </app-biscuit>
+                </div>
+            </div>
+
+
+            <table *ngIf="biscuits.length != 0 && !beautyDisplay"
+                class="table table-responsive table-bordered table-hover mx-auto text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="first-col" scope="col">Nom Biscuit</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Editer</th>
+                        <th scope="col">Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let biscuit of biscuits | slice: (page-1) * pageSize : (page -1) * pageSize + pageSize">
+                        <th class="first-col" scope="row" [routerLink]="['/biscuit',biscuit.id]">
+                            {{biscuit.nom | titlecase}}</th>
+                        <td>{{biscuit.categorie | titlecase}}</td>
+                        <td><img [src]="biscuit.image" alt="biscuit">
+                        </td>
+                        <td><button class="btn" (click)="checkAuth('update',template,auth,biscuit)" >Editer</button>
+                        </td>
+                        <td><button class="btn" (click)="checkAuth('delete',template,auth, biscuit)">Supprimer</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="biscuits === null || biscuits.length === 0" class="my-3">
+            <div class="alert alert-danger text-center">Aucun biscuit à afficher !</div>
+        </div>
+    </div>
+
+    <ng-template #template>
+
+        <div class="modal-content text-center">
+
+            <div class=" modal-body ">
+                Voulez vous vraiment supprimer le biscuit "{{currentBiscuit.nom}}"? <div class="text-center">
+                    <button (click)="this.modalRef.hide();" class="btn btn-primary mt-3 ">Annuler</button>
+                    <button class="btn btn-danger mt-3 ml-3"
+                        (click)="onDeleteBiscuit(currentBiscuit)">Supprimer</button>
+                </div>
+            </div>
+
+        </div>
+
+    </ng-template>
+
+    <ng-template #auth>
+
+        <div class="modal-content text-center">
+    
+            <div class=" modal-body ">
+                Pour effectuer cette action, vous devez vous connecter, souhaitez vous vous connecter ? <div
+                    class="text-center">
+                    <button class="btn btn-success mt-3 mr-3" (click)="onLogin()">Se
+                        connecter</button>
+                    <button (click)="this.modalRef.hide();" class="btn btn-primary mt-3 ">Annuler</button>
+                </div>
+            </div>
+    
+        </div>
+    
+    </ng-template>
+
+</ng-container>
