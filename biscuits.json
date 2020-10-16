@@ -65,6 +65,12 @@
       "id": 15,
       "nom": "Biscuit",
       "image": "assets/img/sablé-breton.jpg"
+    },
+    {
+      "categorie": "chocolat",
+      "id": 16,
+      "nom": "Religieuse",
+      "image": "assets/img/cookie.jpg"
     }
   ],
   "users": [

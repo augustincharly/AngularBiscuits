@@ -37,13 +37,13 @@ export class BiscuitService {
   }
 
   addBiscuit(newBiscuit: Biscuit): Observable<Biscuit> {
-    return this.http.post<Biscuit>(this.apiUrl, newBiscuit, this.httpOptions).pipe(
+    return this.http.post<Biscuit>(this.apiUrlOffline, newBiscuit, this.httpOptions).pipe(
       catchError(this.handlError)
     );
   }
 
   getBiscuits(): Observable<Biscuit[]> {
-    return this.http.get<Biscuit[]>(this.apiUrl)
+    return this.http.get<Biscuit[]>(this.apiUrlOffline)
       .pipe(
         retry(1),
         catchError(this.handlError)
@@ -51,21 +51,21 @@ export class BiscuitService {
   }
 
   getBiscuitById(id: number): Observable<Biscuit> {
-    return this.http.get<Biscuit>(this.apiUrl + '/' + id).pipe(
+    return this.http.get<Biscuit>(this.apiUrlOffline + '/' + id).pipe(
       retry(1),
       catchError(this.handlError)
     );
   }
 
   editBiscuit(monBiscuit: Biscuit) {
-    return this.http.put<Biscuit>(this.apiUrl + '/' + monBiscuit.id, monBiscuit, this.httpOptions).pipe(
+    return this.http.put<Biscuit>(this.apiUrlOffline + '/' + monBiscuit.id, monBiscuit, this.httpOptions).pipe(
       catchError(this.handlError)
     );
 
   }
 
   deleteBiscuit(id: number): Observable<Biscuit> {
-    return this.http.delete<Biscuit>(this.apiUrl + '/' + id).pipe(
+    return this.http.delete<Biscuit>(this.apiUrlOffline + '/' + id).pipe(
       retry(1),
       catchError(this.handlError)
     );

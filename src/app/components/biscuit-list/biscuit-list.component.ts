@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, TemplateRef } from '@angular/c
 import { Biscuit } from 'src/app/models/biscuit';
 import { BiscuitService } from 'src/app/services/biscuit.service';
 import { ActivatedRoute, Router, Event, NavigationEnd, NavigationError } from '@angular/router';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/services/auth.service';
 
 
@@ -30,7 +30,7 @@ export class BiscuitListComponent implements OnInit {
   pageSize = 4;
   page = 1;
 
-  constructor( private biscuitService: BiscuitService, private authService: AuthService
+  constructor(private biscuitService: BiscuitService, private authService: AuthService
     , private activatedRoute: ActivatedRoute, private routeur: Router, private modalService: BsModalService) {
     routeur.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
@@ -59,10 +59,10 @@ export class BiscuitListComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  checkAuth(destination: string, template: TemplateRef<any>, auth: TemplateRef<any>, biscuit: Biscuit){
+  checkAuth(destination: string, template: TemplateRef<any>, auth: TemplateRef<any>, biscuit: Biscuit) {
     if (this.authService.getIsAuth()) {
       (destination === 'update') ? this.routeur.navigate(['biscuit-form-edit', biscuit.id])
-      : this.modalRef = this.modalService.show(template);
+        : this.modalRef = this.modalService.show(template);
     } else {
       this.modalRef = this.modalService.show(auth);
     }
@@ -77,9 +77,9 @@ export class BiscuitListComponent implements OnInit {
     if (this.authService.getIsAuth()) {
       this.currentBiscuit = biscuit;
       this.modalRef = this.modalService.show(template);
-      } else {
-        this.routeur.navigate(['/login']);
-      }
+    } else {
+      this.routeur.navigate(['/login']);
+    }
   }
 
   refreshBiscuits() {

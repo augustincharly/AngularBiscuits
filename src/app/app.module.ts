@@ -16,7 +16,7 @@ import { ReplacePipe } from './pipes/replace.pipe';
 
 import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
-import { CollapseModule } from 'ngx-bootstrap';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { HttpClientModule } from '@angular/common/http';
 import { AutofocusDirective } from './directives/autofocus.directive';
 
